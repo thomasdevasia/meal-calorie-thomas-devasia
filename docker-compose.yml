@@ -1,0 +1,72 @@
+# Simple Postgres service
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mealcalorie
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - meal-calorie-network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    ports:
+      - "8000:8000"
+    networks:
+      - meal-calorie-network
+    depends_on:
+      - postgres
+      - redis
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend/requirements.txt
+        - action: sync
+          path: ./backend/
+          target: /app
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - meal-calorie-network
+    depends_on:
+      - backend
+      - postgres
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/
+          target: /app
+        - action: rebuild
+          path: ./frontend/package-lock.json
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - meal-calorie-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  meal-calorie-network:
