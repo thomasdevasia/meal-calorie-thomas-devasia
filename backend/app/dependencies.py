@@ -8,7 +8,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail={"detail": "Could not validate credentials"},
+        detail={"detail": "Could not validate credentials. Try logging in again."},
         headers={"WWW-Authenticate": "Bearer"},
     )
 

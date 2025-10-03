@@ -27,4 +27,4 @@ def verify_access_token(token: str) -> dict:
             raise JWTError
         return payload
     except JWTError:
-        raise JWTError("Could not validate credentials")
+        raise JWTError("Could not validate credentials. Try logging in again.")
