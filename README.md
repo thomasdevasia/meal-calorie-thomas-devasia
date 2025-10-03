@@ -1,6 +1,6 @@
-## Meal Calorie App (Full Stack)
+## Meal Calorie App
 
-This repository contains the full‑stack meal calorie application (frontend + backend) built for the Xcelpros take‑home test.
+This repository contains the meal calorie application (frontend + backend) built for the Xcelpros take‑home test.
 
 The app allows users to:
 
