@@ -33,8 +33,8 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          storageKey="meal-calorie-theme"
           disableTransitionOnChange
         >
           <div className="flex h-screen flex-col">
